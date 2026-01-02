@@ -42,8 +42,10 @@ class GroqConfig:
             self.api_key = env_key
         # Priority 3: Use whatever was set (or empty)
 
-        # Load model from env if available
-        if model := os.getenv("MODEL_NAME"):
+        # Load model from secrets or env if available
+        if "MODEL_NAME" in st.secrets:
+            self.model_name = st.secrets["MODEL_NAME"]
+        elif model := os.getenv("MODEL_NAME"):
             self.model_name = model
 
         if not self.api_key:
@@ -60,14 +62,25 @@ class RAGConfig:
     embedding_model: str = "all-MiniLM-L6-v2"
 
     def __post_init__(self):
-        """Load RAG settings from environment."""
-        if chunk_size := os.getenv("CHUNK_SIZE"):
+        """Load RAG settings from environment and Streamlit secrets."""
+        if "CHUNK_SIZE" in st.secrets:
+            self.chunk_size = int(st.secrets["CHUNK_SIZE"])
+        elif chunk_size := os.getenv("CHUNK_SIZE"):
             self.chunk_size = int(chunk_size)
-        if chunk_overlap := os.getenv("CHUNK_OVERLAP"):
+
+        if "CHUNK_OVERLAP" in st.secrets:
+            self.chunk_overlap = int(st.secrets["CHUNK_OVERLAP"])
+        elif chunk_overlap := os.getenv("CHUNK_OVERLAP"):
             self.chunk_overlap = int(chunk_overlap)
-        if top_k := os.getenv("TOP_K_RESULTS"):
+
+        if "TOP_K_RESULTS" in st.secrets:
+            self.top_k_results = int(st.secrets["TOP_K_RESULTS"])
+        elif top_k := os.getenv("TOP_K_RESULTS"):
             self.top_k_results = int(top_k)
-        if threshold := os.getenv("SIMILARITY_THRESHOLD"):
+
+        if "SIMILARITY_THRESHOLD" in st.secrets:
+            self.similarity_threshold = float(st.secrets["SIMILARITY_THRESHOLD"])
+        elif threshold := os.getenv("SIMILARITY_THRESHOLD"):
             self.similarity_threshold = float(threshold)
 
 
@@ -83,17 +96,29 @@ class DataSourceConfig:
     cache_dir: str = "data/cache"
 
     def __post_init__(self):
-        """Load data source settings from environment."""
+        """Load data source settings from environment and Streamlit secrets."""
         # Compute project root first (needed for path conversion)
         self.project_root = Path(__file__).resolve().parents[1]
 
-        if pdf_path := os.getenv("DEFAULT_PDF_PATH"):
+        # Priority 1: Streamlit secrets, Priority 2: Environment variables
+        if "DEFAULT_PDF_PATH" in st.secrets:
+            self.default_pdf_path = st.secrets["DEFAULT_PDF_PATH"]
+        elif pdf_path := os.getenv("DEFAULT_PDF_PATH"):
             self.default_pdf_path = pdf_path
-        if scrape_url := os.getenv("SCRAPE_URL"):
+
+        if "SCRAPE_URL" in st.secrets:
+            self.scrape_url = st.secrets["SCRAPE_URL"]
+        elif scrape_url := os.getenv("SCRAPE_URL"):
             self.scrape_url = scrape_url
-        if scrape_enabled := os.getenv("SCRAPE_ENABLED"):
+
+        if "SCRAPE_ENABLED" in st.secrets:
+            self.scrape_enabled = str(st.secrets["SCRAPE_ENABLED"]).lower() in ("true", "1", "yes")
+        elif scrape_enabled := os.getenv("SCRAPE_ENABLED"):
             self.scrape_enabled = scrape_enabled.lower() in ("true", "1", "yes")
-        if cache_dir := os.getenv("CACHE_DIR"):
+
+        if "CACHE_DIR" in st.secrets:
+            self.cache_dir = st.secrets["CACHE_DIR"]
+        elif cache_dir := os.getenv("CACHE_DIR"):
             self.cache_dir = cache_dir
 
         # Convert to absolute paths (critical for Streamlit)
@@ -120,12 +145,20 @@ class UIConfig:
     )
 
     def __post_init__(self):
-        """Load UI settings from environment."""
-        if title := os.getenv("APP_TITLE"):
+        """Load UI settings from environment and Streamlit secrets."""
+        if "APP_TITLE" in st.secrets:
+            self.app_title = st.secrets["APP_TITLE"]
+        elif title := os.getenv("APP_TITLE"):
             self.app_title = title
-        if max_hist := os.getenv("MAX_HISTORY"):
+
+        if "MAX_HISTORY" in st.secrets:
+            self.max_history = int(st.secrets["MAX_HISTORY"])
+        elif max_hist := os.getenv("MAX_HISTORY"):
             self.max_history = int(max_hist)
-        if color := os.getenv("THEME_COLOR"):
+
+        if "THEME_COLOR" in st.secrets:
+            self.theme_color = st.secrets["THEME_COLOR"]
+        elif color := os.getenv("THEME_COLOR"):
             self.theme_color = color
 
 
