@@ -13,7 +13,6 @@ from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Optional, List
 from functools import lru_cache
-
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -72,9 +71,13 @@ class RAGConfig:
             self.similarity_threshold = float(threshold)
 
 
+
+
 @dataclass
 class DataSourceConfig:
     """Data source configuration."""
+
+    project_root: Path = Path(__file__).resolve().parents[1]
     default_pdf_path: str = "reference/Academic-Policy-Manual-for-Students2.pdf"
     scrape_url: str = "https://iqra.edu.pk/iu-policies/"
     scrape_enabled: bool = True
@@ -90,6 +93,10 @@ class DataSourceConfig:
             self.scrape_enabled = scrape_enabled.lower() in ("true", "1", "yes")
         if cache_dir := os.getenv("CACHE_DIR"):
             self.cache_dir = cache_dir
+
+        # Convert to absolute paths (critical for Streamlit)
+        self.default_pdf_path = str(self.project_root / self.default_pdf_path)
+        self.cache_dir = str(self.project_root / self.cache_dir)
 
 
 @dataclass
