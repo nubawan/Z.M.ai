@@ -273,7 +273,7 @@ class EmbeddingManager:
 
     def save_index(self):
         """Save the current index to disk."""
-        cache_dir = self.data_config.project_root / self.data_config.cache_dir
+        cache_dir = Path(self.data_config.cache_dir)
         self.vector_store.save(cache_dir)
 
     def load_index(self) -> bool:
@@ -283,7 +283,7 @@ class EmbeddingManager:
         Returns:
             True if successful, False otherwise
         """
-        cache_dir = self.data_config.project_root / self.data_config.cache_dir
+        cache_dir = Path(self.data_config.cache_dir)
         index_path = cache_dir / "index.faiss"
 
         if not index_path.exists():

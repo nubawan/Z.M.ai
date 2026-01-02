@@ -315,7 +315,7 @@ class DocumentLoader:
         Returns:
             List of Document objects
         """
-        pdf_path = self.config.project_root / self.config.default_pdf_path
+        pdf_path = Path(self.config.default_pdf_path)
 
         if not pdf_path.exists():
             logger.warning(f"Default PDF not found: {pdf_path}")
