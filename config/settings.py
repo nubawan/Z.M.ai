@@ -77,7 +77,6 @@ class RAGConfig:
 class DataSourceConfig:
     """Data source configuration."""
 
-    project_root: Path = Path(__file__).resolve().parents[1]
     default_pdf_path: str = "reference/Academic-Policy-Manual-for-Students2.pdf"
     scrape_url: str = "https://iqra.edu.pk/iu-policies/"
     scrape_enabled: bool = True
@@ -85,6 +84,9 @@ class DataSourceConfig:
 
     def __post_init__(self):
         """Load data source settings from environment."""
+        # Compute project root first (needed for path conversion)
+        self.project_root = Path(__file__).resolve().parents[1]
+
         if pdf_path := os.getenv("DEFAULT_PDF_PATH"):
             self.default_pdf_path = pdf_path
         if scrape_url := os.getenv("SCRAPE_URL"):
