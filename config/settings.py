@@ -57,8 +57,8 @@ class RAGConfig:
     """RAG (Retrieval-Augmented Generation) configuration."""
     chunk_size: int = 1000
     chunk_overlap: int = 200
-    top_k_results: int = 5
-    similarity_threshold: float = 0.7
+    top_k_results: int = 8
+    similarity_threshold: float = 0.25
     embedding_model: str = "all-MiniLM-L6-v2"
 
     def __post_init__(self):
