@@ -94,11 +94,10 @@ class DataSourceConfig:
     scrape_url: str = "https://iqra.edu.pk/iu-policies/"
     scrape_enabled: bool = True
     cache_dir: str = "data/cache"
+    project_root: Path = field(default_factory=lambda: Path(__file__).resolve().parents[1], init=False)
 
     def __post_init__(self):
         """Load data source settings from environment and Streamlit secrets."""
-        # Compute project root first (needed for path conversion)
-        self.project_root = Path(__file__).resolve().parents[1]
 
         # Priority 1: Streamlit secrets, Priority 2: Environment variables
         if "DEFAULT_PDF_PATH" in st.secrets:
