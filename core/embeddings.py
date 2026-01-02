@@ -32,7 +32,8 @@ class EmbeddingModel:
         self.model_name = model_name or self.config.embedding_model
 
         logger.info(f"Loading embedding model: {self.model_name}")
-        self.model = SentenceTransformer(self.model_name)
+        # Explicitly use CPU to avoid device-related issues
+        self.model = SentenceTransformer(self.model_name, device="cpu")
         self.embedding_dim = self.model.get_sentence_embedding_dimension()
 
         logger.info(f"Embedding model loaded: dimension={self.embedding_dim}")
