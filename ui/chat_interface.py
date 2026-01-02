@@ -17,6 +17,7 @@ from . import (
     render_header,
     render_welcome_message,
     render_message,
+    render_input_area,
     render_footer,
     render_loading_state,
     render_error_state,
