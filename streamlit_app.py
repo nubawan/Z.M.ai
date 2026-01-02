@@ -253,16 +253,15 @@ def get_llm_response(query: str, context: str, history: List[dict]) -> str:
 
 Current Date: {today}
 
-CONTEXT FROM POLICY DOCUMENTS:
-{context if context else "No specific context found for this query."}
+REFERENCE MATERIAL:
+{context if context else ""}
 
 INSTRUCTIONS:
-1. If the context contains relevant information, use it to answer accurately
-2. If no context is found, politely explain what information you need
-3. Be professional, clear, and concise
-4. Use bullet points or numbered lists for clarity
-5. Keep answers relevant to academic policies
-6. If you're not certain about something based on the context, say so clearly
+1. Use the reference material above to provide accurate answers
+2. Be professional, clear, and concise
+3. Use bullet points or numbered lists for clarity
+4. Keep answers relevant to academic policies
+5. Answer helpfully based on what you know
 
 Respond in a friendly, helpful manner."""
 
@@ -318,7 +317,8 @@ def main():
         ">🧠</div>
         <div>
             <div style="font-size: 24px; font-weight: 700; color: #0f172a; letter-spacing: -0.03em;">Z.M.ai</div>
-            <div style="font-size: 13px; color: #94a3b8; font-weight: 500; margin-top: 2px;">Academic Policy Assistant</div>
+            <div style="font-size: 13px; color: #94a3b8; font-weight: 500; margin-top: 2px;">RAG-based Academic Policy Assistant</div>
+            <div style="font-size: 11px; color: #cbd5e1; font-weight: 400; margin-top: 4px;">Built by Zayan & Maviya</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -374,7 +374,7 @@ def main():
         border-top: 1px solid rgba(148, 163, 184, 0.2);
         margin-top: 40px;
     ">
-        Z.M.ai • Academic Policy Assistant
+        Z.M.ai • A RAG-based LLM Chatbot built by Zayan & Maviya
     </div>
     """, unsafe_allow_html=True)
 
