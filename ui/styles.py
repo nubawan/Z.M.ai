@@ -1,8 +1,7 @@
 """
 Z.M.ai - UI Styles
 
-CSS styling for the Streamlit application.
-Adapted from the React frontend design with glassmorphism effects.
+Professional, polished CSS styling for the Streamlit application.
 """
 
 from config import get_ui_config
@@ -10,82 +9,99 @@ from config import get_ui_config
 # Get configuration for dynamic colors
 ui_config = get_ui_config()
 
-# Color palette
+# Professional color palette - more refined
 COLORS = {
-    "primary_start": "#6366f1",    # Indigo
-    "primary_mid": ui_config.theme_color,  # Configurable purple (default: #8b5cf6)
-    "primary_end": "#d946ef",      # Fuchsia
-    "accent_glow": "rgba(139, 92, 246, 0.4)",
-    "bg_primary": "#fafafa",
-    "bg_secondary": "#f5f5f7",
-    "bg_glass": "rgba(255, 255, 255, 0.85)",
+    "primary_start": "#4f46e5",    # Indigo 600
+    "primary_mid": ui_config.theme_color,  # Configurable (default: #8b5cf6)
+    "primary_end": "#7c3aed",      # Violet 600
+    "accent_glow": "rgba(79, 70, 229, 0.15)",
+    "bg_primary": "#ffffff",
+    "bg_secondary": "#f8fafc",
+    "bg_glass": "rgba(255, 255, 255, 0.9)",
     "bg_glass_strong": "rgba(255, 255, 255, 0.95)",
-    "text_primary": "#111111",
-    "text_secondary": "#6b7280",
-    "text_tertiary": "#9ca3af",
-    "border_subtle": "rgba(0, 0, 0, 0.06)",
-    "border_medium": "rgba(0, 0, 0, 0.1)",
-    "success": "#10b981",
+    "text_primary": "#0f172a",
+    "text_secondary": "#475569",
+    "text_tertiary": "#94a3b8",
+    "border_subtle": "rgba(148, 163, 184, 0.2)",
+    "border_medium": "rgba(148, 163, 184, 0.3)",
+    "success": "#22c55e",
     "error": "#ef4444",
     "warning": "#f59e0b",
 }
 
 
 def get_gradient_css() -> str:
-    """Get the animated gradient background CSS."""
+    """Get the animated gradient background CSS - more subtle."""
     return f"""
     <style>
-        /* Main app background */
+        /* Main app background - subtle animated gradient */
         .stApp {{
-            background: linear-gradient(135deg, {COLORS["primary_start"]}, {COLORS["primary_mid"]}, {COLORS["primary_end"]}, #667eea, #764ba2);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-attachment: fixed;
         }}
 
-        @keyframes gradientShift {{
-            0% {{ background-position: 0% 50%; }}
-            25% {{ background-position: 100% 50%; }}
-            50% {{ background-position: 100% 100%; }}
-            75% {{ background-position: 0% 100%; }}
-            100% {{ background-position: 0% 50%; }}
+        /* Subtle animated accent gradient overlay */
+        .stApp::before {{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 20% 20%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: subtleShift 20s ease-in-out infinite;
+        }}
+
+        @keyframes subtleShift {{
+            0%, 100% {{ opacity: 1; }}
+            50% {{ opacity: 0.7; }}
         }}
 
         /* Hide default Streamlit background */
         .stApp >> div[data-testid="stAppViewContainer"] > div > div {{
             background: transparent;
         }}
+
+        /* Main container with proper z-index */
+        .stApp >> [data-testid="stAppViewContainer"] {{
+            position: relative;
+            z-index: 1;
+        }}
     </style>
     """
 
 
 def get_glassmorphism_css() -> str:
-    """Get glassmorphism effect CSS."""
+    """Get glassmorphism effect CSS - more refined."""
     return f"""
     <style>
-        /* Glassmorphism container */
+        /* Glassmorphism container - cleaner look */
         .glass-container {{
             background: {COLORS["bg_glass_strong"]};
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-radius: 16px;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: 20px;
             border: 1px solid {COLORS["border_subtle"]};
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 30px rgba(0, 0, 0, 0.08);
         }}
 
         /* Glassmorphic header */
         .glass-header {{
             background: {COLORS["bg_glass_strong"]};
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-bottom: 1px solid {COLORS["border_subtle"]};
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
         }}
 
         /* Glassmorphic input area */
         .glass-input {{
             background: {COLORS["bg_glass_strong"]};
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-top: 1px solid {COLORS["border_subtle"]};
         }}
     </style>
@@ -93,111 +109,170 @@ def get_glassmorphism_css() -> str:
 
 
 def get_message_css() -> str:
-    """Get message bubble styling CSS."""
+    """Get message bubble styling CSS - more polished."""
     return f"""
     <style>
-        /* Message containers */
+        /* Message containers - refined animations */
         .message-container {{
             display: flex;
-            gap: 14px;
-            padding: 16px 20px;
-            animation: messageSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            gap: 12px;
+            padding: 4px 0;
+            animation: messageFadeIn 0.3s ease-out;
         }}
 
-        @keyframes messageSlide {{
+        @keyframes messageFadeIn {{
             from {{
                 opacity: 0;
-                transform: translateY(20px) scale(0.98);
+                transform: translateY(8px);
             }}
             to {{
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }}
         }}
 
-        /* User message */
+        /* User message - more refined gradient */
         .message-user {{
-            background: linear-gradient(135deg, {COLORS["primary_start"]}, {COLORS["primary_mid"]});
+            background: linear-gradient(135deg, {COLORS["primary_start"]} 0%, {COLORS["primary_mid"]} 100%);
             color: white;
-            padding: 12px 18px;
-            border-radius: 18px 18px 4px 18px;
-            box-shadow: 0 4px 15px {COLORS["accent_glow"]};
-            max-width: 80%;
+            padding: 14px 20px;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 2px 8px {COLORS["accent_glow"]};
+            max-width: 75%;
             margin-left: auto;
+            font-size: 15px;
+            line-height: 1.5;
+            font-weight: 400;
         }}
 
-        /* Assistant message */
+        /* Assistant message - cleaner white design */
         .message-assistant {{
             background: white;
             color: {COLORS["text_primary"]};
-            padding: 12px 18px;
-            border-radius: 18px 18px 18px 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            max-width: 80%;
+            padding: 14px 20px;
+            border-radius: 20px 20px 20px 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid {COLORS["border_subtle"]};
+            max-width: 85%;
+            font-size: 15px;
+            line-height: 1.6;
         }}
 
-        /* Error message */
+        /* Assistant message markdown styling */
+        .message-assistant h1, .message-assistant h2, .message-assistant h3 {{
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: {COLORS["text_primary"]};
+        }}
+
+        .message-assistant h1 {{ font-size: 1.4em; }}
+        .message-assistant h2 {{ font-size: 1.25em; }}
+        .message-assistant h3 {{ font-size: 1.1em; }}
+
+        .message-assistant ul, .message-assistant ol {{
+            margin: 8px 0;
+            padding-left: 20px;
+        }}
+
+        .message-assistant li {{
+            margin: 4px 0;
+            line-height: 1.6;
+        }}
+
+        .message-assistant p {{
+            margin: 8px 0;
+        }}
+
+        .message-assistant code {{
+            background: {COLORS["bg_secondary"]};
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+        }}
+
+        .message-assistant strong {{
+            font-weight: 600;
+            color: {COLORS["text_primary"]};
+        }}
+
+        /* Error message - more professional */
         .message-error {{
-            background: rgba(239, 68, 68, 0.1);
-            color: {COLORS["error"]};
-            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.04) 100%);
+            color: #dc2626;
+            padding: 14px 20px;
             border-radius: 12px;
-            border-left: 4px solid {COLORS["error"]};
+            border-left: 3px solid {COLORS["error"]};
+            font-size: 14px;
         }}
     </style>
     """
 
 
 def get_source_tag_css() -> str:
-    """Get source tag styling CSS."""
+    """Get source tag styling CSS - cleaner look."""
     return f"""
     <style>
-        /* Source tags */
+        /* Source tags - more refined */
         .source-tag {{
-            background: linear-gradient(135deg, {COLORS["primary_start"]}, {COLORS["primary_mid"]});
-            color: white;
-            padding: 6px 12px;
-            border-radius: 9999px;
+            background: {COLORS["bg_secondary"]};
+            color: {COLORS["text_secondary"]};
+            padding: 5px 11px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 500;
             display: inline-block;
-            margin: 4px 4px 4px 0;
-            box-shadow: 0 2px 8px {COLORS["accent_glow"]};
-            transition: all 0.25s ease;
+            margin: 4px 6px 4px 0;
+            border: 1px solid {COLORS["border_subtle"]};
+            transition: all 0.2s ease;
+            font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+            letter-spacing: -0.01em;
         }}
 
         .source-tag:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px {COLORS["accent_glow"]};
+            background: {COLORS["primary_start"]};
+            color: white;
+            border-color: {COLORS["primary_start"]};
+            transform: translateY(-1px);
         }}
 
         .sources-container {{
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 14px;
+            padding-top: 14px;
             border-top: 1px solid {COLORS["border_subtle"]};
+        }}
+
+        .sources-container > div:first-child {{
+            font-size: 11px;
+            color: {COLORS["text_tertiary"]};
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }}
     </style>
     """
 
 
 def get_typing_indicator_css() -> str:
-    """Get typing indicator animation CSS."""
+    """Get typing indicator animation CSS - refined."""
     return f"""
     <style>
         /* Typing indicator */
         .typing-indicator {{
             display: flex;
-            gap: 6px;
+            gap: 5px;
             padding: 12px 0;
+            align-items: center;
         }}
 
         .typing-dot {{
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: linear-gradient(135deg, {COLORS["primary_start"]}, {COLORS["primary_mid"]});
-            animation: typingBounce 1.4s infinite ease-in-out;
-            box-shadow: 0 0 10px {COLORS["accent_glow"]};
+            animation: typingPulse 1.3s infinite ease-in-out;
         }}
 
         .typing-dot:nth-child(2) {{
@@ -208,14 +283,14 @@ def get_typing_indicator_css() -> str:
             animation-delay: 0.3s;
         }}
 
-        @keyframes typingBounce {{
-            0%, 80%, 100% {{
-                transform: scale(0.6);
-                opacity: 0.4;
+        @keyframes typingPulse {{
+            0%, 100% {{
+                opacity: 0.3;
+                transform: scale(0.85);
             }}
-            40% {{
-                transform: scale(1);
+            50% {{
                 opacity: 1;
+                transform: scale(1);
             }}
         }}
     </style>
@@ -223,17 +298,17 @@ def get_typing_indicator_css() -> str:
 
 
 def get_custom_scrollbar_css() -> str:
-    """Get custom scrollbar CSS."""
+    """Get custom scrollbar CSS - cleaner."""
     return f"""
     <style>
-        /* Custom scrollbar for messages */
+        /* Custom scrollbar - more refined */
         [data-testid="stVerticalBlock"] > div > div > div > div {{
             scrollbar-width: thin;
-            scrollbar-color: {COLORS["primary_mid"]} transparent;
+            scrollbar-color: {COLORS["border_medium"]} transparent;
         }}
 
         [data-testid="stVerticalBlock"] > div > div > div > div::-webkit-scrollbar {{
-            width: 8px;
+            width: 6px;
         }}
 
         [data-testid="stVerticalBlock"] > div > div > div > div::-webkit-scrollbar-track {{
@@ -241,15 +316,94 @@ def get_custom_scrollbar_css() -> str:
         }}
 
         [data-testid="stVerticalBlock"] > div > div > div > div::-webkit-scrollbar-thumb {{
-            background: linear-gradient(180deg, {COLORS["primary_start"]}, {COLORS["primary_mid"]});
-            border-radius: 9999px;
+            background: {COLORS["border_medium"]};
+            border-radius: 10px;
             border: 2px solid transparent;
             background-clip: content-box;
         }}
 
         [data-testid="stVerticalBlock"] > div > div > div > div::-webkit-scrollbar-thumb:hover {{
-            background: linear-gradient(180deg, {COLORS["primary_mid"]}, {COLORS["primary_end"]});
+            background: {COLORS["text_tertiary"]};
             background-clip: content-box;
+        }}
+    </style>
+    """
+
+
+def get_chat_input_css() -> str:
+    """Get chat input styling CSS - professional."""
+    return f"""
+    <style>
+        /* Chat input container */
+        .stChatInputContainer {{
+            border-top: 1px solid {COLORS["border_subtle"]} !important;
+            background: {COLORS["bg_glass_strong"]} !important;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            padding: 16px 20px !important;
+        }}
+
+        /* Chat input field */
+        .stChatInputContainer textarea {{
+            background: {COLORS["bg_secondary"]} !important;
+            border: 1px solid {COLORS["border_subtle"]} !important;
+            border-radius: 14px !important;
+            padding: 14px 18px !important;
+            font-size: 15px !important;
+            color: {COLORS["text_primary"]} !important;
+            transition: all 0.2s ease !important;
+            resize: none !important;
+        }}
+
+        .stChatInputContainer textarea:focus {{
+            border-color: {COLORS["primary_start"]} !important;
+            box-shadow: 0 0 0 3px {COLORS["accent_glow"]} !important;
+            outline: none !important;
+        }}
+
+        .stChatInputContainer textarea::placeholder {{
+            color: {COLORS["text_tertiary"]} !important;
+        }}
+
+        /* Send button */
+        .stChatInputContainer button {{
+            background: linear-gradient(135deg, {COLORS["primary_start"]}, {COLORS["primary_mid"]}) !important;
+            border: none !important;
+            border-radius: 12px !important;
+            color: white !important;
+            transition: all 0.2s ease !important;
+        }}
+
+        .stChatInputContainer button:hover {{
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px {COLORS["accent_glow"]} !important;
+        }}
+    </style>
+    """
+
+
+def get_button_css() -> str:
+    """Get button styling CSS - professional."""
+    return f"""
+    <style>
+        /* General button styling */
+        .stButton > button {{
+            background: white;
+            color: {COLORS["text_primary"]};
+            border: 1px solid {COLORS["border_medium"]};
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }}
+
+        .stButton > button:hover {{
+            background: {COLORS["bg_secondary"]};
+            border-color: {COLORS["text_tertiary"]};
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
         }}
     </style>
     """
@@ -269,6 +423,8 @@ def get_all_css() -> str:
         get_source_tag_css(),
         get_typing_indicator_css(),
         get_custom_scrollbar_css(),
+        get_chat_input_css(),
+        get_button_css(),
     ])
 
 
@@ -310,7 +466,7 @@ def format_assistant_message(content: str, sources: list = None) -> str:
     source_html = ""
     if sources:
         source_tags = "".join([f'<span class="source-tag">{source}</span>' for source in sources])
-        source_html = f'<div class="sources-container">{source_tags}</div>'
+        source_html = f'<div class="sources-container"><div>Sources</div>{source_tags}</div>'
 
     return f"""
     <div class="message-container">
