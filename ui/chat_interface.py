@@ -17,7 +17,6 @@ from . import (
     render_header,
     render_welcome_message,
     render_message,
-    render_sidebar,
     render_footer,
     render_loading_state,
     render_error_state,
@@ -217,11 +216,10 @@ class ChatInterface:
             page_title=self.ui_config.app_title,
             page_icon="🧠",
             layout="centered",
-            initial_sidebar_state="expanded",
+            initial_sidebar_state="collapsed",
         )
 
-        # Render sidebar
-        render_sidebar()
+        # Sidebar hidden
 
         # Main header
         render_header(
