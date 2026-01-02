@@ -201,6 +201,10 @@ class RAGLLMHandler:
         Returns:
             LLMResponse with answer and sources
         """
+        # Check for conversational questions first
+        if self._is_conversational_query(query):
+            return self._answer_conversational(query)
+
         # Build prompt with context
         system_prompt = custom_system_prompt or self.default_system_prompt
 
@@ -208,12 +212,15 @@ class RAGLLMHandler:
             context = retrieval_result.context_text
             prompt = self._build_rag_prompt(query, context)
         else:
-            # No context found
-            prompt = f"""Based on the available policy documents, I cannot find information to answer this question.
+            # No context found - ask for clarification
+            prompt = f"""The user asked: "{query}"
 
-Question: {query}
+I couldn't find specific information about this in the academic policy documents I have access to.
 
-Please respond that you don't have enough information about this topic in the policy documents."""
+Please help the user by:
+1. Briefly explaining what kind of questions you can help with (academic policies, grading, attendance, etc.)
+2. Asking them to rephrase their question if they're looking for specific policy information
+3. Being friendly and helpful"""
 
         # Generate response
         response = self.groq.generate_response(
@@ -276,12 +283,12 @@ Provide a helpful answer based ONLY on the context above. If the answer isn't in
 
 YOUR ROLE:
 - Help students understand academic policies clearly
-- Provide accurate information based ONLY on the provided context
+- Provide accurate information based on the provided context when available
 - Be friendly, clear, and concise
 
 IMPORTANT RULES:
-1. NEVER make up information that isn't in the context
-2. If you don't know something based on the context, say so clearly
+1. When context is provided, use it to answer accurately
+2. When no context is found, be helpful and guide the user to ask better questions
 3. Keep answers relevant to academic policies
 4. Use bullet points or numbered lists for clarity
 5. Be concise but thorough
@@ -289,8 +296,37 @@ IMPORTANT RULES:
 RESPONSE STYLE:
 - Start with a direct answer
 - Use markdown formatting for readability
-- Include relevant details from the context
+- Include relevant details from the context when available
 - End with a helpful follow-up if appropriate"""
+
+    def _is_conversational_query(self, query: str) -> bool:
+        """Check if query is conversational (not policy-related)."""
+        conversational_keywords = [
+            "who are you", "what are you", "what's your name",
+            "what can you do", "how can you help", "what do you know",
+            "hello", "hi ", "hey ",
+            "thank", "thanks", "goodbye",
+        ]
+        query_lower = query.lower().strip()
+        return any(kw in query_lower for kw in conversational_keywords)
+
+    def _answer_conversational(self, query: str) -> LLMResponse:
+        """Answer conversational questions about the bot itself."""
+        conversational_prompt = f"""The user asked: "{query}"
+
+You are Z.M.ai, an academic policy assistant. Introduce yourself and explain what you can help with:
+- Academic policies and procedures
+- Grading and attendance requirements
+- Course registration and drop/add policies
+- Exam schedules and requirements
+
+Be friendly and brief. Then ask what they'd like to know about university policies."""
+
+        response = self.groq.generate_response(
+            prompt=conversational_prompt,
+            system_prompt="You are Z.M.ai, a friendly academic policy assistant. Be helpful and conversational.",
+        )
+        return response
 
     def answer_without_context(self, query: str) -> LLMResponse:
         """
