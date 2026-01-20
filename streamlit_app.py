@@ -346,19 +346,27 @@ Respond in a friendly, helpful manner."""
 # -------------------- PAGES --------------------
 def show_chat_page():
     """Display the chat interface."""
-    st.markdown("""
-    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+    # Load and display logo
+    try:
+        st.image("logo.png", width=80)
+    except:
+        st.markdown("""
         <div style="
-            width: 48px;
-            height: 48px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, #4f46e5, #8b5cf6);
-            border-radius: 14px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 40px;
+            margin-bottom: 10px;
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
         ">🧠</div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
         <div>
             <div style="font-size: 24px; font-weight: 700; color: #0f172a; letter-spacing: -0.03em;">Z.M.ai</div>
             <div style="font-size: 13px; color: #94a3b8; font-weight: 500; margin-top: 2px;">RAG-based Academic Policy Assistant</div>
@@ -413,8 +421,18 @@ def show_portfolio_page():
     """Display the portfolio page."""
     st.markdown("""
     <div class="portfolio-header">
+    """, unsafe_allow_html=True)
+
+    # Load and display logo
+    try:
+        st.image("logo.png", width=120)
+    except:
+        st.markdown("""
         <div style="font-size: 48px; margin-bottom: 10px;">🧠</div>
-        <h1 style="color: white; margin: 0; font-size: 36px; font-weight: 800;">Z.M.ai</h1>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+        <h1 style="color: white; margin: 10px 0 0; font-size: 36px; font-weight: 800;">Z.M.ai</h1>
         <p style="color: rgba(255,255,255,0.9); margin: 10px 0; font-size: 18px;">RAG-Based Academic Policy Assistant</p>
         <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 14px;">Built by Zayan Shahid</p>
     </div>
