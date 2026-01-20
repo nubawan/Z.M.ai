@@ -79,6 +79,61 @@ def inject_custom_css():
             border-color: #4f46e5 !important;
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
         }
+
+        /* Portfolio styles */
+        .portfolio-header {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(79, 70, 229, 0.3);
+        }
+        .portfolio-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .feature-card {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .tech-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 4px;
+        }
+        .link-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+        }
+        .link-button-secondary {
+            display: inline-block;
+            background: white;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            padding: 12px 30px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -288,20 +343,9 @@ Respond in a friendly, helpful manner."""
         return f"⚠️ Error generating response: {str(e)}"
 
 
-# -------------------- MAIN APP --------------------
-def main():
-    """Main application."""
-    # Page config
-    st.set_page_config(
-        page_title="Z.M.ai | Academic Policy Assistant",
-        page_icon="🧠",
-        layout="centered"
-    )
-
-    # Inject CSS
-    inject_custom_css()
-
-    # Header
+# -------------------- PAGES --------------------
+def show_chat_page():
+    """Display the chat interface."""
     st.markdown("""
     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
         <div style="
@@ -318,7 +362,7 @@ def main():
         <div>
             <div style="font-size: 24px; font-weight: 700; color: #0f172a; letter-spacing: -0.03em;">Z.M.ai</div>
             <div style="font-size: 13px; color: #94a3b8; font-weight: 500; margin-top: 2px;">RAG-based Academic Policy Assistant</div>
-            <div style="font-size: 11px; color: #cbd5e1; font-weight: 400; margin-top: 4px;">Built by Zayan & Maviya</div>
+            <div style="font-size: 11px; color: #cbd5e1; font-weight: 400; margin-top: 4px;">Built by Zayan Shahid</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -364,19 +408,175 @@ def main():
         if len(st.session_state.messages) > 100:
             st.session_state.messages = st.session_state.messages[-100:]
 
-    # Footer
+
+def show_portfolio_page():
+    """Display the portfolio page."""
     st.markdown("""
-    <div style="
-        text-align: center;
-        padding: 24px;
-        color: #94a3b8;
-        font-size: 12px;
-        border-top: 1px solid rgba(148, 163, 184, 0.2);
-        margin-top: 40px;
-    ">
-        Z.M.ai • A RAG-based LLM Chatbot built by Zayan & Maviya
+    <div class="portfolio-header">
+        <div style="font-size: 48px; margin-bottom: 10px;">🧠</div>
+        <h1 style="color: white; margin: 0; font-size: 36px; font-weight: 800;">Z.M.ai</h1>
+        <p style="color: rgba(255,255,255,0.9); margin: 10px 0; font-size: 18px;">RAG-Based Academic Policy Assistant</p>
+        <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 14px;">Built by Zayan Shahid</p>
     </div>
     """, unsafe_allow_html=True)
+
+    # What is Z.M.ai
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">What is Z.M.ai?</h2>
+        <p style="color: #475569; line-height: 1.8;">
+            <strong>Navigate academic policies with confidence.</strong> Z.M.ai is an intelligent chatbot that delivers instant,
+            accurate answers to university policy questions using advanced <strong>Retrieval-Augmented Generation (RAG)</strong> technology.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Key Features
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">Key Features</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+    """, unsafe_allow_html=True)
+
+    features = [
+        ("🎯", "RAG-Powered Accuracy", "Retrieves real policy documents before generating responses"),
+        ("⚡", "Lightning Fast", "Powered by Groq's Llama 3.1 models for instant responses"),
+        ("📚", "Smart Knowledge Base", "Web scraping + PDF processing for comprehensive coverage"),
+        ("💬", "Natural Conversations", "Chat naturally and get context-aware answers"),
+        ("🎨", "Professional UI", "Clean, modern interface designed for students"),
+        ("💾", "Local Caching", "Efficient local storage for fast loading"),
+    ]
+
+    for icon, title, desc in features:
+        st.markdown(f"""
+        <div class="feature-card">
+            <div style="font-size: 32px; margin-bottom: 8px;">{icon}</div>
+            <h3 style="color: #0f172a; font-weight: 600; font-size: 16px; margin: 8px 0;">{title}</h3>
+            <p style="color: #64748b; font-size: 13px; margin: 0;">{desc}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("</div></div>", unsafe_allow_html=True)
+
+    # How It Works
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">How It Works</h2>
+        <div style="display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+            <div style="flex: 1; min-width: 150px; text-align: center; padding: 15px; background: #f8fafc; border-radius: 12px;">
+                <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #8b5cf6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 10px;">1</div>
+                <h4 style="margin: 8px 0; color: #0f172a;">Ask</h4>
+                <p style="color: #64748b; font-size: 12px; margin: 0;">Type your question</p>
+            </div>
+            <div style="flex: 1; min-width: 150px; text-align: center; padding: 15px; background: #f8fafc; border-radius: 12px;">
+                <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #8b5cf6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 10px;">2</div>
+                <h4 style="margin: 8px 0; color: #0f172a;">Retrieve</h4>
+                <p style="color: #64748b; font-size: 12px; margin: 0;">Search policy documents</p>
+            </div>
+            <div style="flex: 1; min-width: 150px; text-align: center; padding: 15px; background: #f8fafc; border-radius: 12px;">
+                <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #8b5cf6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 10px;">3</div>
+                <h4 style="margin: 8px 0; color: #0f172a;">Generate</h4>
+                <p style="color: #64748b; font-size: 12px; margin: 0;">AI formulates answer</p>
+            </div>
+            <div style="flex: 1; min-width: 150px; text-align: center; padding: 15px; background: #f8fafc; border-radius: 12px;">
+                <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #4f46e5, #8b5cf6); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin: 0 auto 10px;">4</div>
+                <h4 style="margin: 8px 0; color: #0f172a;">Respond</h4>
+                <p style="color: #64748b; font-size: 12px; margin: 0;">Get accurate answer</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Tech Stack
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">Tech Stack</h2>
+        <div style="text-align: center; margin-top: 20px;">
+            <span class="tech-badge">🐍 Python</span>
+            <span class="tech-badge">🌊 Streamlit</span>
+            <span class="tech-badge">🚀 Groq API</span>
+            <span class="tech-badge">📖 BeautifulSoup</span>
+            <span class="tech-badge">📄 pdfplumber</span>
+            <span class="tech-badge">🔍 Keyword Matching</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Project Stats
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">Project Highlights</h2>
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+            <div style="text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #4f46e5, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">380+</div>
+                <div style="color: #64748b; font-size: 13px;">Lines of Code</div>
+            </div>
+            <div style="text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #4f46e5, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">&lt;2s</div>
+                <div style="color: #64748b; font-size: 13px;">Response Time</div>
+            </div>
+            <div style="text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #4f46e5, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100%</div>
+                <div style="color: #64748b; font-size: 13px;">Free & Open</div>
+            </div>
+            <div style="text-align: center; flex: 1; min-width: 100px;">
+                <div style="font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #4f46e5, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">24/7</div>
+                <div style="color: #64748b; font-size: 13px;">Available</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Links
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">Try It Now</h2>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="https://zaymavai.streamlit.app/" target="_blank" class="link-button">🚀 Live Demo</a>
+            <a href="https://github.com/nubawan/Z.M.ai" target="_blank" class="link-button-secondary">💻 GitHub Repo</a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Team
+    st.markdown("""
+    <div class="portfolio-section">
+        <h2 style="color: #0f172a; font-weight: 700; font-size: 24px;">Built By</h2>
+        <div style="text-align: center; margin-top: 20px;">
+            <div style="display: inline-block; padding: 20px;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #4f46e5, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 12px; color: white;">Z</div>
+                <h3 style="color: #0f172a; font-weight: 600; font-size: 16px; margin: 8px 0;">Zayan Shahid</h3>
+                <p style="color: #64748b; font-size: 13px; margin: 0;">Developer</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px; color: #64748b; font-size: 13px;">
+            <p><strong>Course:</strong> Parallel & Distributed Computing</p>
+            <p><strong>Instructor:</strong> Dr. Ali Akbar Siddique</p>
+            <p><strong>Day/Time:</strong> Friday/Saturday, 8:30-9:50 AM</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# -------------------- MAIN APP --------------------
+def main():
+    """Main application with page navigation."""
+    # Page config
+    st.set_page_config(
+        page_title="Z.M.ai | Academic Policy Assistant",
+        page_icon="🧠",
+        layout="centered"
+    )
+
+    # Inject CSS
+    inject_custom_css()
+
+    # Page navigation
+    pg = st.navigation([
+        st.Page(show_chat_page, title="💬 Chat", icon="💬"),
+        st.Page(show_portfolio_page, title="📊 Portfolio", icon="📊"),
+    ])
+    pg.run()
 
 
 if __name__ == "__main__":
